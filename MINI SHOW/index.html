@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NetFix — Game Edukasi Troubleshooting Jaringan Komputer (SMK TKJ)</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Top Navigation Bar -->
+  <header class="topbar">
+    <div class="brand-wrap">
+      <div class="brand-badge">NETFIX</div>
+      <div>
+        <div style="font-weight:700;font-size:0.92rem;">Game Edukasi Troubleshooting Jaringan</div>
+        <div class="brand-sub">SMK TKJ Kelas XI (Mapel AIJ) • Kelompok 8</div>
+      </div>
+    </div>
+
+    <nav class="nav-actions">
+      <button type="button" class="btn btn-outline btn-active-tab" data-nav="view-home">Beranda</button>
+      <button type="button" class="btn btn-outline" data-nav="view-cases">Pilih Kasus</button>
+      <button type="button" class="btn btn-outline" data-nav="view-sim">Simulasi</button>
+      <button type="button" class="btn btn-outline" data-nav="view-summary">Skor & Evaluasi</button>
+      <button type="button" class="btn btn-outline" data-nav="view-code">Kode Sumber (HTML/CSS/JS)</button>
+      <button type="button" class="btn btn-outline" id="btnToggleAudio">🔊 Audio: On</button>
+      <span class="difficulty-badge diff-easy" id="topScoreDisplay" style="padding:0.4rem 0.7rem;">Skor: 0</span>
+    </nav>
+  </header>
+
+  <main class="app-container">
+    <!-- VIEW 1: BERANDA / MAIN MENU & ONBOARDING -->
+    <section id="view-home" class="view-section active">
+      <div class="hero-card">
+        <div>
+          <span class="pill-tag">Interactive Authoring Media • Model ADDIE</span>
+          <h1 class="hero-title">Simulasi. Praktik. Paham. Bersama <span>NetFix</span></h1>
+          <p class="hero-desc">
+            Media pembelajaran interaktif berbasis web untuk melatih logika diagnosis gangguan jaringan komputer pada mata pelajaran <strong>Administrasi Infrastruktur Jaringan (AIJ)</strong> Siswa Kelas XI SMK TKJ tanpa risiko merusak perangkat laboratorium fisik.
+          </p>
+          <div style="display:flex;gap:0.75rem;flex-wrap:wrap;">
+            <button type="button" class="btn btn-primary" id="btnHeroStart">Mulai Simulasi Kasus →</button>
+            <button type="button" class="btn btn-outline" id="btnHeroCode">Lihat Pemisahan File (HTML / CSS / JS)</button>
+          </div>
+        </div>
+
+        <div class="panel-card" style="background:rgba(7,17,38,0.75);">
+          <h3 style="font-size:0.95rem;color:var(--accent-cyan);margin-bottom:0.5rem;">Panduan Operasional Singkat</h3>
+          <ol style="padding-left:1.2rem;font-size:0.84rem;color:var(--text-muted);display:flex;flex-direction:column;gap:0.4rem;">
+            <li>Pilih level skenario gangguan pada menu <strong>Pilih Kasus</strong> (Mudah, Sedang, Sulit).</li>
+            <li>Amati indikator topologi jaringan pada <strong>Simulation Dashboard</strong>.</li>
+            <li>Ikuti siklus keputusan <strong>Amati → Duga → Uji → Simpulkan → Evaluasi</strong>.</li>
+            <li>Gunakan instrumen pengujian (<em>LAN Tester, ipconfig, ping, nslookup</em>) untuk menemukan akar masalah.</li>
+          </ol>
+          <div style="margin-top:0.85rem;padding-top:0.75rem;border-top:1px solid var(--border-color);font-size:0.78rem;color:var(--text-muted);">
+            <strong>Tim Pengembang Kelompok 8:</strong> Fauzan Raditiya, Jeni Anggraini, Nadia Valentina, Ahmad Avicena Komarov.
+          </div>
+        </div>
+      </div>
+
+      <!-- Siklus Keputusan Strip -->
+      <div class="cycle-strip">
+        <div class="cycle-box">
+          <div class="cycle-num">TAHAP 01</div>
+          <div class="cycle-name">Amati (Observe)</div>
+          <div class="cycle-caption">Analisis gejala & indikator visual topologi</div>
+        </div>
+        <div class="cycle-box">
+          <div class="cycle-num">TAHAP 02</div>
+          <div class="cycle-name">Duga (Hypothesize)</div>
+          <div class="cycle-caption">Rumuskan hipotesis penyebab masalah</div>
+        </div>
+        <div class="cycle-box">
+          <div class="cycle-num">TAHAP 03</div>
+          <div class="cycle-name">Uji (Test)</div>
+          <div class="cycle-caption">Jalankan pemeriksaan di Branching Scenario</div>
+        </div>
+        <div class="cycle-box">
+          <div class="cycle-num">TAHAP 04</div>
+          <div class="cycle-name">Simpulkan (Conclude)</div>
+          <div class="cycle-caption">Terapkan langkah perbaikan yang tepat</div>
+        </div>
+        <div class="cycle-box">
+          <div class="cycle-num">TAHAP 05</div>
+          <div class="cycle-name">Evaluasi (Feedback)</div>
+          <div class="cycle-caption">Umpan balik instan & skor ketuntasan</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 2: CASE SELECT (PERSONALIZED LEARNING PATHWAY) -->
+    <section id="view-cases" class="view-section">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem;">
+        <div>
+          <h2 style="font-size:1.4rem;">Pilih Kasus Troubleshooting (Case Select)</h2>
+          <p style="font-size:0.86rem;color:var(--text-muted);">Pilih skenario sesuai tingkat kesulitan untuk memulai diagnosis jaringan.</p>
+        </div>
+      </div>
+      <div class="cases-grid" id="casesContainer"></div>
+    </section>
+
+    <!-- VIEW 3: SIMULATION DASHBOARD -->
+    <section id="view-sim" class="view-section">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.85rem;flex-wrap:wrap;gap:0.5rem;">
+        <div>
+          <h2 id="simCaseTitle" style="font-size:1.25rem;">KASUS 01</h2>
+          <p id="simCaseSub" style="font-size:0.82rem;color:var(--text-muted);"></p>
+        </div>
+        <span id="simStatusBadge" class="difficulty-badge diff-hard">STATUS: GANGGUAN TERDETEKSI</span>
+      </div>
+
+      <div class="step-tracker" id="stepTracker"></div>
+
+      <div class="sim-layout">
+        <!-- Left: Visual Topology & Terminal Log -->
+        <div class="panel-card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;">
+            <span style="font-size:0.82rem;font-weight:700;color:var(--accent-cyan);">Simulation Dashboard — Visualisasi Aliran Paket Data</span>
+            <span style="font-size:0.75rem;color:var(--text-muted);">● Hijau: Paket Normal | ● Merah: Titik Gangguan</span>
+          </div>
+          <div class="canvas-wrapper">
+            <canvas id="topologyCanvas"></canvas>
+          </div>
+
+          <div style="margin-top:0.75rem;display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-size:0.8rem;font-weight:700;color:var(--accent-lime);">Terminal Log Diagnostik</span>
+            <span style="font-size:0.74rem;color:var(--text-muted);">SMK-TKJ Network Console v1.0</span>
+          </div>
+          <div class="terminal-box" id="terminalOutput">
+            <div class="term-line">[SYSTEM] Silakan amati gejala awal dan ikuti langkah diagnosis di panel kanan.</div>
+          </div>
+        </div>
+
+        <!-- Right: Interactive Decision Cycle Panel -->
+        <div class="panel-card" id="decisionPanelContent"></div>
+      </div>
+    </section>
+
+    <!-- VIEW 4: SUMMARY REPORT (GAMIFIED PROGRESS TRACKING) -->
+    <section id="view-summary" class="view-section">
+      <div class="panel-card">
+        <h2 style="font-size:1.35rem;margin-bottom:0.35rem;">Summary Report & Capaian Kompetensi Siswa</h2>
+        <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:1rem;">
+          Rekapitulasi otomatis hasil diagnosis troubleshooting jaringan komputer pada mata pelajaran AIJ.
+        </p>
+
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.85rem;margin-bottom:1.2rem;">
+          <div class="cycle-box">
+            <div class="cycle-caption">Ketuntasan Kasus</div>
+            <div id="summaryTotalCases" style="font-size:1.25rem;font-weight:800;color:var(--accent-cyan);">0 / 3 Kasus</div>
+          </div>
+          <div class="cycle-box">
+            <div class="cycle-caption">Total Skor Akurasi & Efisiensi</div>
+            <div id="summaryTotalScore" style="font-size:1.25rem;font-weight:800;color:var(--accent-lime);">0 / 300 Poin</div>
+          </div>
+          <div class="cycle-box">
+            <div class="cycle-caption">Predikat Kompetensi</div>
+            <div id="summaryRankBadge" style="font-size:0.95rem;font-weight:700;color:var(--text-muted);">Pemula</div>
+          </div>
+        </div>
+
+        <div style="overflow-x:auto;">
+          <table style="width:100%;border-collapse:collapse;font-size:0.85rem;">
+            <thead>
+              <tr style="background:var(--bg-card);text-align:left;color:var(--accent-cyan);">
+                <th style="padding:0.65rem;border-bottom:1px solid var(--border-color);">Kode</th>
+                <th style="padding:0.65rem;border-bottom:1px solid var(--border-color);">Skenario Kasus</th>
+                <th style="padding:0.65rem;border-bottom:1px solid var(--border-color);">Level</th>
+                <th style="padding:0.65rem;border-bottom:1px solid var(--border-color);">Status</th>
+                <th style="padding:0.65rem;border-bottom:1px solid var(--border-color);text-align:right;">Skor</th>
+              </tr>
+            </thead>
+            <tbody id="summaryTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 5: STRUKTUR KODE SUMBER TERPISAH (HTML, CSS, JS) -->
+    <section id="view-code" class="view-section">
+      <div class="panel-card">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem;margin-bottom:0.75rem;">
+          <div>
+            <h2 style="font-size:1.25rem;">Struktur Kode Sumber Terpisah (Modular Web Files)</h2>
+            <p style="font-size:0.83rem;color:var(--text-muted);">
+              Arsitektur proyek NetFix dipisahkan secara rapi menjadi <code>index.html</code>, <code>style.css</code>, <code>cases.js</code>, <code>audio.js</code>, dan <code>script.js</code>.
+            </p>
+          </div>
+          <button type="button" class="btn btn-primary" id="btnCopyCode">Salin Kode File Ini</button>
+        </div>
+
+        <div class="code-tabs">
+          <button type="button" class="btn btn-outline btn-active-tab" data-code-file="index.html">index.html</button>
+          <button type="button" class="btn btn-outline" data-code-file="style.css">style.css</button>
+          <button type="button" class="btn btn-outline" data-code-file="cases.js">cases.js (Data Kasus)</button>
+          <button type="button" class="btn btn-outline" data-code-file="audio.js">audio.js (Web Audio)</button>
+          <button type="button" class="btn btn-outline" data-code-file="script.js">script.js (Game Engine)</button>
+        </div>
+
+        <pre class="code-block-view" id="codeBlockContent"></pre>
+      </div>
+    </section>
+  </main>
+
+  <!-- Pemanggilan File JavaScript Terpisah -->
+  <script src="cases.js"></script>
+  <script src="audio.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
